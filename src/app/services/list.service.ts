@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TodoModel } from '../models/todo.model';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject, Observer } from 'rxjs/Rx';
 
 @Injectable()
 export class ListService {
-	
-	todos: BehaviorSubject<TodoModel[]> = new BehaviorSubject([]);
+
+	private _todos: BehaviorSubject<TodoModel[]> = new BehaviorSubject([]);
 
 	constructor() {
-		this.todos.next([
+		this._todos.next([
 			{
 				id: 0,
 				title: "Having dinner with Emm",
@@ -30,14 +30,40 @@ export class ListService {
 		]);
 	}
 
-	getTodos() {
-		return this.todos.asObservable();
+	get todos$() {
+		return this._todos.asObservable();
 	}
 
-	addTodo(todo: TodoModel) {
-		let todos = this.todos.getValue();
-		todo.id = todos.length;
-		todos.push(todo);
-		console.log("Add todo id " + todo.id);
+	addTodo(newTodo: TodoModel) {
+		// TODO: Push todo to backend
+		// let obs = todoBackendService.saveTodo(todo);
+		// obs.subscribe(
+		// 	response => {
+		// 		//synchonize with local todo
+		// 		this.todos.next(this.todos.getValue().push(todo));
+		// 	}
+		// );
+
+		// ASSUME: already synchonize with backend service
+		let todos = this._todos.getValue();
+		newTodo.id = todos.length;
+		todos.push(newTodo);
+		this._todos.next(todos);
+	}
+
+	toggleTodo(toggledTodo: TodoModel) {
+		// ASSUME: already synchonize with backend service
+		let todos = this._todos.getValue();
+		let index = todos.findIndex((todo) => todo.id === toggledTodo.id);
+		// todos[index] = toggledTodo;
+		this._todos.next(todos);
+	}
+
+	deleteTodo(deletedTodo: TodoModel) {
+		// ASSUME: already synchonize with backend service
+		let todos = this._todos.getValue();
+		let index = todos.findIndex((todo) => todo.id === deletedTodo.id);
+		// todos.delete(index);
+		this._todos.next(todos);
 	}
 }

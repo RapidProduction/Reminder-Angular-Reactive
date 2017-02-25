@@ -1,8 +1,8 @@
 <div>
 	Todo page
-	<br />
+	<br>
 	Adding new todo
 	<input #todoInput id="todo-input" type="text">
-	<br />
-	<todo-list [todos]="todos$ | async"></todo-list>
+	<br>
+	<todo-list [todos]="listService.todos$ | async"></todo-list>
 </div>

@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Observer } from 'rxjs/Rx';
 
 import { TodoModel } from '../models/todo.model';
 
@@ -14,17 +14,10 @@ export class TodoListComponent {
 	delete$: Observable<{id: number}>;
 	toggle$: Observable<{id: number, completed: boolean}>;
 
-	constructor() {}
+	constructor() {
+	}
 
 	ngOnInit() {
-		
-	}
 
-	delete(event: Observable<{id: number}>) {
-
-	}
-
-	toggle(event: Observable<{id: number, completed: boolean}>) {
-		
 	}
 }

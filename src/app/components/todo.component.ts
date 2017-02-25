@@ -9,25 +9,42 @@ import { TodoModel } from '../models/todo.model';
 })
 
 export class TodoComponent {
-	@Input() todo: TodoModel;
-	@Output() delete$: Observable<{id: number}>;
-	@Output() toggle$: Observable<{id: number, completed: boolean}>;
-	@Output() edit$: Observable<{id: number}>;
+	@Input('todo') todo: TodoModel;
+	@Output() delete$: Observable<{ id: number }>;
+	@Output() toggle$: Observable<{ id: number, completed: boolean }>;
+	@Output() edit$: Observable<{ id: number, todo: TodoModel }>;
 
 	@ViewChild('todoComplete') $todoComplete: ElementRef;
 	@ViewChild('todoTitle') $todoTitle: ElementRef;
 	@ViewChild('todoDeleteButton') $todoDeleteButton: ElementRef;
 
+	todo$: Observable<{}>;
+
 	constructor() {}
 
 	ngOnInit() {
-		// Impure oeprators!!
-		this.toggle$ = Observable.fromEvent(this.$todoComplete.nativeElement, 'click');
-		this.toggle$ = this.toggle$.map(val => ({id: this.todo.id, completed: !this.todo.completed}));
+		this.todo$ = Observable
+			.pairs({todo: this.todo});
 
-		this.delete$ = Observable.fromEvent(this.$todoDeleteButton.nativeElement, 'click');
-		this.delete$ = this.delete$.map(val => ({id: this.todo.id}));
+		const toggleClick = Observable.fromEvent(this.$todoComplete.nativeElement, 'click');
+		this.toggle$ = toggleClick
+			.withLatestFrom(this.todo$, (_, todo) => todo[1])
+			.map(todo => ({ id: todo.id, completed: todo.completed }))
+			.publishReplay(1)
+			.refCount();
 
-		this.edit$ = Observable.fromEvent(this.$todoTitle.nativeElement, 'dblclick');
+		const deleteClick = Observable.fromEvent(this.$todoDeleteButton.nativeElement, 'click');
+		this.delete$ = deleteClick
+			.withLatestFrom(this.todo$, (_, todo) => todo[1])
+			.map(todo => ({ id: todo.id }))
+			.publishReplay(1)
+			.refCount();
+
+		const editDblClick = Observable.fromEvent(this.$todoTitle.nativeElement, 'dblclick');
+		editDblClick.subscribe(
+			val => {
+				console.log("edit click!");
+			}
+		);
 	}
 }
