@@ -11,27 +11,30 @@ import { ListService } from '../services/list.service';
 })
 
 export class TodoPageComponent {
-	@ViewChild('todoInput') $todoInput: ElementRef;
-	todoInput$: Observable<KeyboardEvent>
+	@ViewChild('todoInput') private _$todoInput: ElementRef;
+
+	private _todoInput$: Observable<KeyboardEvent>
 
 	constructor(private listService: ListService) {}
 
 	ngOnInit() {
-		this.todoInput$ = Observable.fromEvent(this.$todoInput.nativeElement, 'keydown');
-		this.todoInput$
+		this._todoInput$ = Observable.fromEvent(this._$todoInput.nativeElement, 'keydown');
+		this._todoInput$
 			.filter(event => event.keyCode == 13)
 			.subscribe(
-				val => {
-					let title = "Test";
-					// let title = val.target.value;
-					console.log(title);
-					this.listService.addTodo(new TodoModel({
-						id: -1,
-						title: title,
-						completed: false,
-						date: new Date()
-					}));
-					// val.target.value = "";
+				(event: KeyboardEvent) => {
+					if(this._$todoInput.nativeElement.value != "") {
+						let title = this._$todoInput.nativeElement.value;
+						
+						this.listService.addTodo(new TodoModel({
+							id: this.listService.count,
+							title: title,
+							completed: false,
+							date: new Date()
+						}));
+
+						this._$todoInput.nativeElement.value = "";
+					}
 				}
 			);
 	}

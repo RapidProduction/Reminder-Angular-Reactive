@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { Observable, Observer } from 'rxjs/Rx';
+import { Observable, Observer, ReplaySubject } from 'rxjs/Rx';
 
 import { TodoModel } from '../models/todo.model';
 
@@ -10,11 +10,12 @@ import { TodoModel } from '../models/todo.model';
 
 export class TodoListComponent {
 	@Input() todos: TodoModel[]
-	
-	delete$: Observable<{id: number}>;
-	toggle$: Observable<{id: number, completed: boolean}>;
+	@Output() deleteTodoSink: ReplaySubject<{id: number}>;
+	@Output() toggleTodoSink: ReplaySubject<{id: number, completed: boolean}>;
 
 	constructor() {
+		this.deleteTodoSink = new ReplaySubject(1);
+		this.toggleTodoSink = new ReplaySubject(1);
 	}
 
 	ngOnInit() {

@@ -34,6 +34,10 @@ export class ListService {
 		return this._todos.asObservable();
 	}
 
+	get count() {
+		return this._todos.getValue.length;
+	}
+
 	addTodo(newTodo: TodoModel) {
 		// TODO: Push todo to backend
 		// let obs = todoBackendService.saveTodo(todo);
@@ -46,7 +50,6 @@ export class ListService {
 
 		// ASSUME: already synchonize with backend service
 		let todos = this._todos.getValue();
-		newTodo.id = todos.length;
 		todos.push(newTodo);
 		this._todos.next(todos);
 	}
@@ -55,7 +58,7 @@ export class ListService {
 		// ASSUME: already synchonize with backend service
 		let todos = this._todos.getValue();
 		let index = todos.findIndex((todo) => todo.id === toggledTodo.id);
-		// todos[index] = toggledTodo;
+		todos[index].completed = !todos[index].completed;
 		this._todos.next(todos);
 	}
 
@@ -63,7 +66,11 @@ export class ListService {
 		// ASSUME: already synchonize with backend service
 		let todos = this._todos.getValue();
 		let index = todos.findIndex((todo) => todo.id === deletedTodo.id);
-		// todos.delete(index);
+		todos.splice(index, 1);
 		this._todos.next(todos);
+	}
+
+	rewriteTodo(editedTodo: TodoModel) {
+		
 	}
 }

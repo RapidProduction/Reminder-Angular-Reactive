@@ -1,7 +1,7 @@
 {
   "name": "reminder-reactive",
   "version": "1.0.0",
-  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "description": "Todo Application designed as FRP pattern.",
   "scripts": {
     "build": "tsc -p src/ --outDir ./build",
     "build:watch": "tsc -p src/ -w --outDir ./build",

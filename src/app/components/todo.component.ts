@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewChild, ElementRef, SimpleChange } from '@angular/core';
-import { Observable, Observer } from 'rxjs/Rx';
+import { Observable, Observer, ReplaySubject } from 'rxjs/Rx';
 
 import { TodoModel } from '../models/todo.model';
 
@@ -10,41 +10,37 @@ import { TodoModel } from '../models/todo.model';
 
 export class TodoComponent {
 	@Input('todo') todo: TodoModel;
-	@Output() delete$: Observable<{ id: number }>;
-	@Output() toggle$: Observable<{ id: number, completed: boolean }>;
-	@Output() edit$: Observable<{ id: number, todo: TodoModel }>;
+	@Output() deleteTodoSink: ReplaySubject<{ id: number }>;
+	@Output() toggleTodoSink: ReplaySubject<{ id: number, completed: boolean }>;
+	@Output() editTodoSink: ReplaySubject<{ id: number, todo: TodoModel }>;
 
-	@ViewChild('todoComplete') $todoComplete: ElementRef;
-	@ViewChild('todoTitle') $todoTitle: ElementRef;
-	@ViewChild('todoDeleteButton') $todoDeleteButton: ElementRef;
+	@ViewChild('todoComplete') private _$todoComplete: ElementRef;
+	@ViewChild('todoTitle') private _$todoTitle: ElementRef;
+	@ViewChild('todoDeleteButton') private _$todoDeleteButton: ElementRef;
 
-	todo$: Observable<{}>;
+	private _todo$: Observable<{}>;
 
-	constructor() {}
+	constructor() {
+		this.deleteTodoSink = new ReplaySubject(1);
+		this.toggleTodoSink = new ReplaySubject(1);
+		this.editTodoSink = new ReplaySubject(1);
+	}
 
 	ngOnInit() {
-		this.todo$ = Observable
+		this._todo$ = Observable
 			.pairs({todo: this.todo});
 
-		const toggleClick = Observable.fromEvent(this.$todoComplete.nativeElement, 'click');
-		this.toggle$ = toggleClick
-			.withLatestFrom(this.todo$, (_, todo) => todo[1])
-			.map(todo => ({ id: todo.id, completed: todo.completed }))
-			.publishReplay(1)
-			.refCount();
+		// Observe then sink it to output subject
+		Observable.fromEvent(this._$todoComplete.nativeElement, 'click')
+			.withLatestFrom(this._todo$, (_, todo) => todo[1])
+			.subscribe(this.toggleTodoSink);
 
-		const deleteClick = Observable.fromEvent(this.$todoDeleteButton.nativeElement, 'click');
-		this.delete$ = deleteClick
-			.withLatestFrom(this.todo$, (_, todo) => todo[1])
-			.map(todo => ({ id: todo.id }))
-			.publishReplay(1)
-			.refCount();
+		Observable.fromEvent(this._$todoDeleteButton.nativeElement, 'click')
+			.withLatestFrom(this._todo$, (_, todo) => todo[1])
+			.subscribe(this.deleteTodoSink);
 
-		const editDblClick = Observable.fromEvent(this.$todoTitle.nativeElement, 'dblclick');
-		editDblClick.subscribe(
-			val => {
-				console.log("edit click!");
-			}
-		);
+		Observable.fromEvent(this._$todoTitle.nativeElement, 'dblclick')
+			.withLatestFrom(this._todo$, (_, todo) => todo[1])
+			.subscribe(this.editTodoSink);
 	}
 }

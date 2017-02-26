@@ -4,5 +4,5 @@
 	Adding new todo
 	<input #todoInput id="todo-input" type="text">
 	<br>
-	<todo-list [todos]="listService.todos$ | async"></todo-list>
+	<todo-list [todos]="listService.todos$ | async" (deleteTodoSink)="listService.deleteTodo($event)" (toggleTodoSink)="listService.toggleTodo($event)"></todo-list>
 </div>
