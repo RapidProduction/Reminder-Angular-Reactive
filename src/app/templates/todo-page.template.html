@@ -1,8 +1,7 @@
 <div>
-	Todo page
-	<br>
-	Adding new todo
+	New Todo
 	<input #todoInput id="todo-input" type="text">
 	<br>
+	<filter-bar [filterTypes]="_filterTypes"></filter-bar>
 	<todo-list [todos]="listService.todos$ | async" (deleteTodoSink)="listService.deleteTodo($event)" (toggleTodoSink)="listService.toggleTodo($event)"></todo-list>
 </div>

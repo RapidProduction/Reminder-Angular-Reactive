@@ -12,8 +12,17 @@
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
     <script src="systemjs.config.js"></script>
+
+    <!-- vendors -->
+<!--     <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous">
+    </script> -->
+
+    <!-- main -->
     <script>
-      System.import('main.js').catch(function(err){ console.error(err); });
+      System.import('boot.js').catch(function(err){ console.error(err); });
     </script>
   </head>
 

@@ -1,6 +1,15 @@
-import { Component, Input, Output } from '@angular/core';
-import { Observable, Observer, ReplaySubject } from 'rxjs/Rx';
-
+// vendors
+import { 
+	Component, 
+	Input, 
+	Output 
+} from '@angular/core';
+import { 
+	Observable, 
+	Observer, 
+	ReplaySubject
+} from 'rxjs/Rx';
+// models
 import { TodoModel } from '../models/todo.model';
 
 @Component({
@@ -9,6 +18,7 @@ import { TodoModel } from '../models/todo.model';
 })
 
 export class TodoListComponent {
+	// input/ output
 	@Input() todos: TodoModel[]
 	@Output() deleteTodoSink: ReplaySubject<{id: number}>;
 	@Output() toggleTodoSink: ReplaySubject<{id: number, completed: boolean}>;

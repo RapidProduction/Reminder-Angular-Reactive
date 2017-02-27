@@ -1,6 +1,19 @@
-import { Component, Input, Output, ViewChild, ElementRef, SimpleChange } from '@angular/core';
-import { Observable, Observer, ReplaySubject } from 'rxjs/Rx';
+// vendors
+import { 
+	Component, 
+	Input, 
+	Output, 
+	ViewChild, 
+	ElementRef, 
+	SimpleChange 
+} from '@angular/core';
+import { 
+	Observable, 
+	Observer, 
+	ReplaySubject 
+} from 'rxjs/Rx';
 
+// services & models
 import { TodoModel } from '../models/todo.model';
 
 @Component({
@@ -9,15 +22,18 @@ import { TodoModel } from '../models/todo.model';
 })
 
 export class TodoComponent {
+	// input/ output
 	@Input('todo') todo: TodoModel;
 	@Output() deleteTodoSink: ReplaySubject<{ id: number }>;
 	@Output() toggleTodoSink: ReplaySubject<{ id: number, completed: boolean }>;
 	@Output() editTodoSink: ReplaySubject<{ id: number, todo: TodoModel }>;
 
+	// referenced elements
 	@ViewChild('todoComplete') private _$todoComplete: ElementRef;
 	@ViewChild('todoTitle') private _$todoTitle: ElementRef;
 	@ViewChild('todoDeleteButton') private _$todoDeleteButton: ElementRef;
 
+	// private models
 	private _todo$: Observable<{}>;
 
 	constructor() {

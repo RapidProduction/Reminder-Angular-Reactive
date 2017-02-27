@@ -1,4 +1,9 @@
-import { Component, NgModule } from '@angular/core';
+// vendors
+import {
+	Component, 
+	NgModule 
+} from '@angular/core';
+// components
 import { TodoPageComponent } from './todo-page.component';
 
 @Component({

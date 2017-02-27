@@ -4,17 +4,17 @@ var gulp = require('gulp'),
 
 gulp.task('watch', ['copy'],  function() {
     watch('src/app/**/*.html', { ignoreInitial: false })
-    	.pipe(gulp.dest('build/app'));
+    	.pipe(gulp.dest('dist/app'));
 
     watch(['src/*.html', 'src/*.css', 'src/*.js'], { ignoreInitial: false })
-    	.pipe(gulp.dest('build'));
+    	.pipe(gulp.dest('dist'));
 
 	watch(['src/**/*.scss', 'src/style/**/*.scss'], { ignoreInitial: false })
 		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('dist'));
 });
 
 gulp.task('copy', function() {
 	gulp.src('res/**/')
-		.pipe(gulp.dest('build/res'));
+		.pipe(gulp.dest('dist/res'));
 });

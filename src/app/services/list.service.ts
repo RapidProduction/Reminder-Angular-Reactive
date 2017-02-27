@@ -71,6 +71,10 @@ export class ListService {
 	}
 
 	rewriteTodo(editedTodo: TodoModel) {
-		
+		// ASSUME: already synchonize with backend service
+		let todos = this._todos.getValue();
+		let index = todos.findIndex((todo) => todo.id === editedTodo.id);
+		todos[index] = editedTodo;
+		this._todos.next(todos);
 	}
 }

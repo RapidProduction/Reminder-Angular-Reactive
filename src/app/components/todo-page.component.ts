@@ -1,8 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+// vendors
+import { 
+	Component, 
+	ElementRef, 
+	ViewChild 
+} from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-
+// services & models
 import { TodoModel } from '../models/todo.model';
 import { ListService } from '../services/list.service';
+import { FilterType } from '../models/filter.enum';
 
 @Component({
 	selector: 'todo-page',
@@ -11,14 +17,21 @@ import { ListService } from '../services/list.service';
 })
 
 export class TodoPageComponent {
+	// referenced elements
 	@ViewChild('todoInput') private _$todoInput: ElementRef;
 
-	private _todoInput$: Observable<KeyboardEvent>
+	// private models
+	private _todoInput$: Observable<KeyboardEvent>;
+	private _filterTypes: FilterType[];
 
-	constructor(private listService: ListService) {}
+	constructor(private listService: ListService) {
+		this._filterTypes = [FilterType.All, FilterType.Active, FilterType.Completed];
+	}
 
 	ngOnInit() {
 		this._todoInput$ = Observable.fromEvent(this._$todoInput.nativeElement, 'keydown');
+
+		// Create Todo
 		this._todoInput$
 			.filter(event => event.keyCode == 13)
 			.subscribe(
