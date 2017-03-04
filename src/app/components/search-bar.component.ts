@@ -38,9 +38,9 @@ export class SearchBarComponent {
 
      Observable.fromEvent(searchBar, 'keydown')
       .debounceTime(100)
-      .startWith("")
+      .startWith(undefined)
       .map((event: Event) => {
-        if(event !== "") {
+        if(event != undefined) {
           return (event.target as HTMLInputElement).value
         }
         return "";

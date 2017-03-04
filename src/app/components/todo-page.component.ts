@@ -71,7 +71,7 @@ export class TodoPageComponent {
 			this._filterSource
 		)
 		.map((combineTodoFilter) => {
-			let filterTodos = [];
+			let filterTodos: TodoModel[] = [];
 			const todos = combineTodoFilter[0];
 			const filterType = combineTodoFilter[1]; 
 
@@ -103,7 +103,7 @@ export class TodoPageComponent {
 			this._searchSource
 		)
 		.map((combineTodoSearch) => {
-			let searchTodos = [];
+			let searchTodos: TodoModel[] = [];
 			const todos = combineTodoSearch[0];
 			const searchWord = combineTodoSearch[1];
 
