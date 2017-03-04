@@ -1,0 +1,41 @@
+parser: babel-eslint
+extends: airbnb-base
+env:
+  browser: true
+  jasmine: true
+rules:
+  arrow-parens: [error, always]
+  class-methods-use-this: off
+  comma-dangle:
+    - error
+    - arrays: always-multiline
+      objects: always-multiline
+      imports: always-multiline
+      exports: always-multiline
+      functions: ignore
+  consistent-return: off
+  func-names: off
+  global-require: off
+  indent:
+    - error
+    - 2
+    - SwitchCase: 1
+      FunctionExpression:
+        parameters: first
+  max-len: off
+  no-else-return: off
+  no-mixed-operators: off
+  no-lonely-if: off
+  no-param-reassign: off
+  no-prototype-builtins: off
+  no-underscore-dangle: off
+  no-unused-vars:
+    - error
+    - varsIgnorePattern: Inject
+      argsIgnorePattern: ^_
+  prefer-const: off
+  import/first: off
+  import/no-extraneous-dependencies: off
+  import/prefer-default-export: off
+globals:
+  ENVIRONMENT: false

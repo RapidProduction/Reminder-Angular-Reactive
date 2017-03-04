@@ -1,16 +1,16 @@
 // vendors
-import { 
-	Component, 
-	Input, 
-	Output, 
-	ViewChild, 
-	ElementRef, 
-	SimpleChange 
+import {
+	Component,
+	Input,
+	Output,
+	ViewChild,
+	ElementRef,
+	SimpleChange,
 } from '@angular/core';
-import { 
-	Observable, 
-	Observer, 
-	ReplaySubject 
+import {
+	Observable,
+	Observer,
+	ReplaySubject,
 } from 'rxjs/Rx';
 
 // services & models
@@ -18,15 +18,15 @@ import { TodoModel } from '../models/todo.model';
 
 @Component({
 	selector: 'todo',
-	templateUrl: 'app/templates/todo.template.html'
+	templateUrl: 'app/templates/todo.template.html',
 })
 
 export class TodoComponent {
 	// input/ output
 	@Input('todo') todo: TodoModel;
-	@Output() deleteTodoSink: ReplaySubject<{ id: number }>;
-	@Output() toggleTodoSink: ReplaySubject<{ id: number, completed: boolean }>;
-	@Output() editTodoSink: ReplaySubject<{ id: number, todo: TodoModel }>;
+	@Output('delete') deleteTodoSink: ReplaySubject<{ id: number }>;
+	@Output('toggle') toggleTodoSink: ReplaySubject<{ id: number, completed: boolean }>;
+	@Output('edit') editTodoSink: ReplaySubject<{ id: number, todo: TodoModel }>;
 
 	// referenced elements
 	@ViewChild('todoComplete') private _$todoComplete: ElementRef;
@@ -35,6 +35,7 @@ export class TodoComponent {
 
 	// private models
 	private _todo$: Observable<{}>;
+  private _el: JQuery;
 
 	constructor() {
 		this.deleteTodoSink = new ReplaySubject(1);

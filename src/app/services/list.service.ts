@@ -35,7 +35,7 @@ export class ListService {
 	}
 
 	get count() {
-		return this._todos.getValue.length;
+		return this._todos.getValue().length;
 	}
 
 	addTodo(newTodo: TodoModel) {

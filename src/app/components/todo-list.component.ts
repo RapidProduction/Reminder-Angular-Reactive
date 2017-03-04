@@ -20,8 +20,8 @@ import { TodoModel } from '../models/todo.model';
 export class TodoListComponent {
 	// input/ output
 	@Input() todos: TodoModel[]
-	@Output() deleteTodoSink: ReplaySubject<{id: number}>;
-	@Output() toggleTodoSink: ReplaySubject<{id: number, completed: boolean}>;
+	@Output('delete') deleteTodoSink: ReplaySubject<{id: number}>;
+	@Output('toggle') toggleTodoSink: ReplaySubject<{id: number, completed: boolean}>;
 
 	constructor() {
 		this.deleteTodoSink = new ReplaySubject(1);

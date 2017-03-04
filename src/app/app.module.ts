@@ -6,19 +6,19 @@ import { TodoPageComponent } from './components/todo-page.component';
 import { TodoListComponent } from './components/todo-list.component';
 import { TodoComponent } from './components/todo.component';
 import { FilterBarComponent } from './components/filter-bar.component';
+import { SearchBarComponent } from './components/search-bar.component';
 
 @NgModule({
   imports:[ BrowserModule ],
-
   declarations: [
   	AppComponent,
   	TodoPageComponent,
   	TodoListComponent,
   	TodoComponent,
   	FilterBarComponent,
+    SearchBarComponent,
   ],
-
-  bootstrap:[ AppComponent ]
+  bootstrap:[ AppComponent ],
 })
 
 export class AppModule {}
